@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-deployment
+  labels:
+    app: php-interpreter
+spec:
+  selector:
+    matchLabels:
+      app: php-interpreter
+  template:
+    metadata:
+      labels:
+        app: php-interpreter
+    spec:
+      containers:
+      - name: php-pvc
+        image: vimal13/apache-webserver-php
+        ports:
+        - containerPort: 80
+          volumeMounts:
+                  - name: pvc-php-volume
+                    mountPath: "/var/www/html"
+      volumes:
+              - name: pvc-php-volume
+                persistentVolumeClaim:
+                        claimName: pod-pvc
+
+
